@@ -54,7 +54,7 @@ func (rs *RestServer) StartWithConfig(listenAddr string, cors bool, cfg *tmrpcse
 		rs.log.Error("error closing listener", "err", err)
 	})
 
-	rs.listener, err = tmrpcserver.Listen(listenAddr, cfg)
+	rs.listener, err := tmrpcserver.Listen(listenAddr, cfg)
 	if err != nil {
 		return err
 	}
@@ -75,7 +75,7 @@ func (rs *RestServer) StartWithConfig(listenAddr string, cors bool, cfg *tmrpcse
 // service will use Tendermint's default RPC configuration, where the R/W timeout
 // and max open connections are overridden.
 func (rs *RestServer) Start(listenAddr string, maxOpen int, readTimeout, writeTimeout uint, cors bool) error {
-	cfg := rpcserver.DefaultConfig()
+	cfg := tmrpcserver.DefaultConfig()
 	cfg.MaxOpenConnections = maxOpen
 	cfg.ReadTimeout = time.Duration(readTimeout) * time.Second
 	cfg.WriteTimeout = time.Duration(writeTimeout) * time.Second
@@ -96,7 +96,7 @@ func ServeCommand(cdc *codec.Codec, registerRoutesFn func(*RestServer)) *cobra.C
 			registerRoutesFn(rs)
 			rs.registerSwaggerUI()
 
-			cfg := rpcserver.DefaultConfig()
+			cfg := tmrpcserver.DefaultConfig()
 			cfg.MaxOpenConnections = viper.GetInt(flags.FlagMaxOpenConnections)
 			cfg.ReadTimeout = time.Duration(viper.GetInt64(flags.FlagRPCReadTimeout)) * time.Second
 			cfg.WriteTimeout = time.Duration(viper.GetInt64(flags.FlagRPCWriteTimeout)) * time.Second
