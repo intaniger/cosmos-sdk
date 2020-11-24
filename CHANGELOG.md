@@ -58,6 +58,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 ### Client Breaking Changes
 
 * (x/auth) [\#6745](https://github.com/cosmos/cosmos-sdk/issues/6745) Remove BaseAccount's custom JSON {,un}marshalling.
+* (rest) [\#6167](https://github.com/cosmos/cosmos-sdk/pull/6167) Support `max-body-bytes` CLI flag for the REST service.
 
 ### Bug Fixes
 
