@@ -49,12 +49,13 @@ func NewRestServer(cdc *codec.Codec) *RestServer {
 // StartWithConfig starts the REST server that listens on the provided listenAddr.
 // It will use the provided RPC configuration.
 func (rs *RestServer) StartWithConfig(listenAddr string, cors bool, cfg *tmrpcserver.Config) error {
+	var err error
 	server.TrapSignal(func() {
 		err := rs.listener.Close()
 		rs.log.Error("error closing listener", "err", err)
 	})
 
-	rs.listener, err := tmrpcserver.Listen(listenAddr, cfg)
+	rs.listener, err = tmrpcserver.Listen(listenAddr, cfg)
 	if err != nil {
 		return err
 	}
