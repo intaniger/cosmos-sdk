@@ -48,16 +48,11 @@ func NewRestServer(cdc *codec.Codec) *RestServer {
 
 // StartWithConfig starts the REST server that listens on the provided listenAddr.
 // It will use the provided RPC configuration.
-func (rs *RestServer) StartWithConfig(listenAddr string, cors bool, cfg *rpcserver.Config) error {
+func (rs *RestServer) StartWithConfig(listenAddr string, cors bool, cfg *tmrpcserver.Config) error {
 	server.TrapSignal(func() {
 		err := rs.listener.Close()
 		rs.log.Error("error closing listener", "err", err)
 	})
-
-	cfg := tmrpcserver.DefaultConfig()
-	cfg.MaxOpenConnections = maxOpen
-	cfg.ReadTimeout = time.Duration(readTimeout) * time.Second
-	cfg.WriteTimeout = time.Duration(writeTimeout) * time.Second
 
 	rs.listener, err = tmrpcserver.Listen(listenAddr, cfg)
 	if err != nil {
